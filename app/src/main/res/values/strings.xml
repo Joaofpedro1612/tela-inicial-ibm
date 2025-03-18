@@ -4,4 +4,16 @@
     <string name="your_name">What\'s your name?</string>
     <string name="next">Next</string>
     <string name="logo">Application logo</string>
+    <string name="hi">Hi!</string>
+    <string name="height">Height</string>
+    <string name="weight">Weigth</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="age">Age</string>
+    <string name="calculate">Calculate</string>
+    <string name="BMIpercentage">30</string>
+    <string name="ResultText">You have Class I Obesity.</string>
+    <string name="Conclusion">Your BMI Result\n</string>
+    <string name="NewCalc">NewCalc</string>
+
 </resources>

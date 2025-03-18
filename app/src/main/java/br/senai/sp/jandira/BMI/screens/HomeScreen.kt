@@ -9,20 +9,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +37,13 @@ import br.senai.sp.jandira.BMI.R
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
+
+    var nomeState = remember {
+        mutableStateOf(value = "")
+    }
+
+    var nome = ""
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,11 +91,33 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                             fontSize = 20.sp
                        )
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = { },
+                            value = nomeState.value,
+                            onValueChange = { it ->
+                                nomeState.value = it
+                            },
                             label = {
                                 Text(text = "Digite seu nome")
-                            }
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Email,
+                                    contentDescription = "",
+                                    tint = Color(0xFF2196F3)
+                                )
+                            },
+                            trailingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.LocationOn,
+                                    contentDescription = "",
+                                    tint = Color(0xFF3F51B5)
+
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                capitalization = KeyboardCapitalization.Sentences
+                            )
+
                         )
                     }
                     Column(
