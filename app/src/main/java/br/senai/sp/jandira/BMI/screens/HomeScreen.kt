@@ -33,10 +33,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.BMI.R
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(controleDeNavegacao: NavHostController?) {
 
     var nomeState = remember {
         mutableStateOf(value = "")
@@ -125,7 +126,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                             .padding(top = 230.dp, start = 280.dp)
 
                     ) {
-                        Button(onClick = {},
+                        Button(onClick = {
+                            controleDeNavegacao?.navigate("user_data")
+                        },
                                 shape = RoundedCornerShape(10.dp)
                         ) {
                             Text(text = stringResource(R.string.next))
@@ -145,5 +148,5 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun HomeScreenPreview() {
 
-    HomeScreen()
+    HomeScreen(null)
 }
