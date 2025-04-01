@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.BMI.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -43,9 +45,52 @@ import br.senai.sp.jandira.BMI.R
 @Composable
 fun UserDataScreens(controleDeNavegacao: NavHostController?) {
 
+    // Obtendo o contexto da tela atual
+    val context = LocalContext.current
+
+    // Abrir ou criare um arquivo SharedPreferences
+    val userFile = context.getSharedPreferences(
+        "user_file", Context.MODE_PRIVATE
+    )
+
+    val userName = userFile.getString("user_name", "User not found")
+
+    var ageState = remember {
+        mutableStateOf(value = "")
+    }
+    var wheightState = remember {
+        mutableStateOf(value = "")
+    }
+    var heightState = remember {
+        mutableStateOf(value = "")
+    }
     var nomeState = remember {
         mutableStateOf(value = "")
     }
+
+    val selectedColorState = remember {
+        mutableStateOf(Color(0xFF2838A4))
+    }
+
+    val unselectedColorState = remember {
+        mutableStateOf(Color(0xFF4A4A4D))
+    }
+
+    val isMaleClicked = remember {
+        mutableStateOf(false)
+    }
+
+    val isFemaleClicked = remember {
+        mutableStateOf(false)
+    }
+
+
+
+
+    //Criamos um editor responsável por editar o arquivo
+    val editor = userFile.edit()
+
+
 
     var nome = ""
 
@@ -68,7 +113,7 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = stringResource(R.string.hi),
+                text = "${stringResource(R.string.hi)}, $userName",
                 fontSize = 38.sp,
                 color = Color.White,
                 modifier = Modifier
@@ -105,11 +150,14 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
                                 )
                             }
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    isMaleClicked.value = true
+                                    isFemaleClicked.value = false
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(20.dp, 10.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2838A4)),
+                                colors = ButtonDefaults.buttonColors(containerColor = if (isMaleClicked.value) selectedColorState.value else unselectedColorState.value),
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Text(text = stringResource(R.string.male), fontSize = 16.sp, color = Color.White)
@@ -131,14 +179,14 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
                                 )
                             }
                             Button(
-                                onClick = {},
+                                onClick = {
+                                    isMaleClicked.value = false
+                                    isFemaleClicked.value = true
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(20.dp, 10.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(
-                                    0xFFE362EA
-                                )
-                                ),
+                                colors = ButtonDefaults.buttonColors(containerColor = if (isFemaleClicked.value) selectedColorState.value else unselectedColorState.value),
                                         shape = RoundedCornerShape(10.dp)
                             ) {
                                 Text(text = stringResource(R.string.female), fontSize = 16.sp, color = Color.White)
@@ -154,8 +202,8 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
                         OutlinedTextField(
-                            value = nomeState.value,
-                            onValueChange = { nomeState.value = it },
+                            value = ageState.value,
+                            onValueChange = { ageState.value = it },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
@@ -171,8 +219,8 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
                         )
 
                         OutlinedTextField(
-                            value = nomeState.value,
-                            onValueChange = { nomeState.value = it },
+                            value = wheightState.value,
+                            onValueChange = { wheightState.value = it },
                             modifier = Modifier
                                 .fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
@@ -188,8 +236,8 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
                         )
 
                         OutlinedTextField(
-                            value = nomeState.value,
-                            onValueChange = { nomeState.value = it },
+                            value = heightState.value,
+                            onValueChange = { heightState.value = it },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 ,
@@ -208,6 +256,10 @@ fun UserDataScreens(controleDeNavegacao: NavHostController?) {
 
                     Button(
                         onClick = {
+                            editor.putInt("user_age" , ageState.value.toInt())
+                            editor.putInt("user_wheight" , heightState.value.toInt())
+                            editor.putInt("user_height" , wheightState.value.toInt())
+                            editor.apply()
                             controleDeNavegacao?.navigate("bmi_screen")
                         },
                         modifier = Modifier
