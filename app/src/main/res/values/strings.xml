@@ -15,5 +15,11 @@
     <string name="ResultText">You have Class I Obesity.</string>
     <string name="Conclusion">Your BMI Result\n</string>
     <string name="NewCalc">NewCalc</string>
+    <string name="under_wheight">You are below your ideal wheigth</string>
+    <string name="normal_wheight">You are normal body wheigth</string>
+    <string name="over_wheight">You are slightly overwheigth</string>
+    <string name="class1_wheight">You have class I obesity</string>
+    <string name="class2_wheight">You have class II obesity</string>
+    <string name="class3_wheight">You have class III obesity</string>
 
 </resources>

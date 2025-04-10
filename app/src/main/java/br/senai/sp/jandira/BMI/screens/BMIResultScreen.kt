@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.BMI.R
+import br.senai.sp.jandira.BMI.model.bmicalculator
+import java.util.Locale
 
 @Composable
 fun  BMIResultScreen(controleDeNavegacao: NavHostController?) {
@@ -58,6 +60,8 @@ fun  BMIResultScreen(controleDeNavegacao: NavHostController?) {
     val userWheight = userFile.getInt("user_wheight", 0)
     val userHeight = userFile.getInt("user_height", 0)
 
+
+    val resultBmi = bmicalculator(userWheight, userHeight.toDouble())
     var nome = ""
 
     Box(
@@ -110,26 +114,25 @@ fun  BMIResultScreen(controleDeNavegacao: NavHostController?) {
                         shape = CircleShape,
                                 border = BorderStroke(
                             width = 6.dp,
-                            brush = Brush.horizontalGradient(
-                                listOf(
-                                    Color(0xFF2838A4),
-                                    Color(0xFF6F77D2)
-                                )
-                            )
+                            color = resultBmi.color
                         )
                     ) {
+
+                        val bmiValues = resultBmi.bmiValues.second
                         Text(
-                            text = stringResource(R.string.BMIpercentage),
+                            text = String.format(Locale.getDefault(),"%.1f", bmiValues),
                             fontSize = 38.sp,
                             color = Color.Black,
                             modifier = Modifier
-                            .padding(vertical = 50.dp, horizontal = 50.dp)
+                            .padding(vertical = 50.dp, horizontal = 35.dp)
+                                .width(80.dp)
+                                .height(40.dp)
 
 
                         )
                     }
                     Text(
-                        text = stringResource(R.string.ResultText),
+                        text = "${resultBmi.bmiValues.first}",
                         fontSize = 22.sp,
                         color = Color.Black,
                         modifier = Modifier
